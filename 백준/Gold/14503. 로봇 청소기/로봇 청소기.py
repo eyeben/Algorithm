@@ -12,10 +12,6 @@ bd = []
 for i in range(R):
     bd.append(list(map(int, input().split())))
 
-if bd[r][c] == 1:
-    print(0)
-    exit(0)
-
 dx = [0, 1,0,-1]
 dy = [-1,0,1,0]
 
