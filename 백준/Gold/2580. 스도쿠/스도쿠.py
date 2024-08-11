@@ -62,8 +62,11 @@ for i in range(9):
                 dic[(j, i)].append(k)
 
 dicKeys = list(dic.keys())
+
+dicKeys.sort(key = lambda x: len(dic[x]))
 dicKeys.sort(key = lambda x: x[0]//3)
 dicKeys.sort(key = lambda x: x[1]//3)
+
 dicValues = [dic[k] for k in dicKeys]
 
 
