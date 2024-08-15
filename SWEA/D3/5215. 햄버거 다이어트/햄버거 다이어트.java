@@ -1,15 +1,10 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Solution {
 
     static int mx;
-    static Integer[][] arr;
+    static int[][] arr;
     static boolean[] visited;
     static int N;
     static int L;
@@ -24,7 +19,7 @@ public class Solution {
             N = Integer.parseInt(st.nextToken());
             L = Integer.parseInt(st.nextToken());
 
-            arr = new Integer[N][2];
+            arr = new int[N][2];
             visited = new boolean[N];
 
 
@@ -33,28 +28,28 @@ public class Solution {
                 arr[i][0] = Integer.parseInt(st.nextToken());
                 arr[i][1] = Integer.parseInt(st.nextToken());
             }
+            Arrays.sort(arr, (o1,o2)->(o1[1] - o2[0]));
+            // 조합은 0부터 N개까지
             for(int i = 0;i<=N;i++)
-                combination(0,i);
+                combination(0,i,0,0);
             System.out.printf("#%d %d\n",tc,mx);
         }
 
     }
-
-    private static void combination( int start, int r){
+    // 재귀와 visited를 이용한 조합 구현
+    private static void combination( int start, int r, int currentCalories, int currentHappiness){
+        // 칼로리 초과시 더 이상 할 이유가 없음
+        if(currentCalories > L)
+            return;
+        // 조합이 다 찼을 경우 -> mx 최댓값 갱신
         if(r==0){
-            int happy = 0, calories = 0;
-            for(int i =0;i<N;i++)
-                if(visited[i]) {
-                    happy += arr[i][0];
-                    calories += arr[i][1];
-                }
-            mx = calories <= L ? Math.max(mx, happy):mx;
+            mx = Math.max(mx, currentHappiness);
             return;
         }
-
+        // 조합을 저 채워야 하는 경우
         for(int i = start; i<N;i++){
             visited[i] = true;
-            combination(i+1, r-1);
+            combination(i+1, r-1, currentCalories + arr[i][1], currentHappiness+arr[i][0]);
             visited[i] = false;
         }
 
