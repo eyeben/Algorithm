@@ -2,12 +2,12 @@ import java.io.*;
 import java.util.*;
 
 public class Solution {
-    static LinkedList<Integer> arr;
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         for(int tc = 1; tc<=10;tc++){
-            arr = new LinkedList<>();
+            LinkedList<Integer> arr = new LinkedList<>();
             br.readLine();
             st = new StringTokenizer(br.readLine());
             for(int i =0; i<8;i++){
