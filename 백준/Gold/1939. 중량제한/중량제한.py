@@ -1,49 +1,47 @@
-import sys
 from collections import deque
 
+N, M = map(int, input().split())
 
-def bfs(weight):
-    que = deque([S])
-    visited = [False]*(N+1)
+li = [[] for _ in range(N + 1)]
+weights = set()
+for _ in range(M):
+    a, b, c = map(int, input().split())
+    li[a].append((b, c))
+    li[b].append((a, c))
+    weights.add(c)
+S, E = map(int, input().split())
+
+
+def bfs(weightTest):
+    visited = [False] * (N + 1)
+    dq = deque()
+    dq.append(S)
     visited[S] = True
 
-    while que:
-        x = que.popleft()
-        for y, z in adj[x]:
-            if not visited[y] and z >= weight:
-                visited[y] = True
-                que.append(y)
-    if visited[E]:
-        return True
+    while dq:
+        node = dq.popleft()
+        for nextNode, weight in li[node]:
+            if not visited[nextNode] and weight >= weightTest:
+                dq.append(nextNode)
+                visited[nextNode] = True
+
+    return visited[E]
+
+
+weights = list(weights)
+weights.sort()
+left = 0
+right = len(weights) - 1
+ans = 0
+
+while left <= right:
+    mid = (left + right) // 2
+    weightTest = weights[mid]
+
+    if bfs(weightTest):
+        ans = weightTest
+        left = mid + 1
     else:
-        return False
+        right = mid - 1
 
-
-N, M = map(int,input().split())
-adj = [[] for _ in range(N + 1)]
-weights = set()
-
-for _ in range(M):
-    x,y,weight = map(int, input().split())
-    adj[x].append((y, weight))
-    adj[y].append((x, weight))
-    weights.add(weight)
-
-
-
-
-S, E = map(int,input().split())
-
-weights = sorted(list(weights))
-piv1 = 0
-piv2 = len(weights) - 1
-
-while piv1<=piv2:
-    piv = (piv1+piv2)//2
-    if(bfs(weights[piv])):
-        ans = piv
-        piv1 = piv + 1
-    else:
-        piv2 = piv - 1
-
-print(weights[ans])
+print(ans)
