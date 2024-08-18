@@ -4,7 +4,7 @@ import java.util.*;
 public class Solution {
 
     static int[] pairs;
-    static boolean[] visited;
+    static int visited;
     static int N;
     static int M;
     static int ans;
@@ -20,7 +20,7 @@ public class Solution {
 
             pairs = new int[N+1];
 
-            visited = new boolean[N+1];
+            visited = 1<<(N+1);
             ans = 0;
 
             for(int i = 0 ; i < M;i++){
@@ -49,25 +49,17 @@ public class Solution {
         }
         // 새로운 조합 생성
         for(int i = start; i<N+1;i++){
-            visited[i] = true;
+            visited = visited | (1<<i);
             combination(i+1, r-1);
-            visited[i] = false;
+            visited = visited & ~(1<<i);
         }
     }
     // 비트마스킹을 이용한 페어 검사
     private static boolean check() {
-    	// 현재 조합에서 존재하는 번호를 1로 표시한다
-    	int bit = 1 << (N + 1);
-    	for(int i = 1; i < N+1; i++) {
-    		if(visited[i])
-    			bit = bit | (1<<i);
-    	}
     	// 같이 넣으면 안되는 번호가 존재 하는지 확인
     	for(int i = 1; i < N+1; i++)
-    		if(visited[i])
-				// 현재 조합에 넣으면 안되는 재료가 있는지 확인
-				if((bit & pairs[i]) != 0)
-					return false;
+			if(((visited & (1<<i)) != 0) && (visited & ~pairs[i]) != visited)
+				return false;
 
     	return true;
     }
