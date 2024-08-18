@@ -40,11 +40,9 @@ public class Solution {
     }
     private static void combination( int start, int r){
     	// 새로운 조합이 형성 될 때 마다 체크
-        if(!check())
-            return;
-        
         if(r==0){
-            ans++;
+            if(check())
+            	ans++;
             return;
         }
         // 새로운 조합 생성
