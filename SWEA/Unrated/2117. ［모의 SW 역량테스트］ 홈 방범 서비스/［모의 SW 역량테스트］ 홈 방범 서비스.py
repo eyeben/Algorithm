@@ -14,24 +14,12 @@ for tc in range(1, T+1):
     dx = [0,1,0,-1]
     dy = [-1,0,1,0]
 
-    def bfs(sx,sy,dist):
+    def man(sx,sy,dist):
         cnt = 0
-        visited = [[False] * N for _ in range(N)]
-        dq = deque()
-        dq.append((sx,sy,1))
-        visited[sy][sx] = True
-        cnt += li[sy][sx]
-
-        while dq:
-            x,y,d = dq.popleft()
-
-            for i in range(4):
-                nx, ny = x+dx[i], y+dy[i]
-                if(0<=nx<N and 0<=ny<N and d+1 <= dist and not visited[ny][nx]):
-                    cnt += li[ny][nx]
-                    visited[ny][nx] = True
-                    dq.append((nx,ny,d+1))
-
+        for i in range(max(0, sx-dist - 1), min(sx+dist+1, N)):
+            for j in range(max(0,sy-dist), min(sy+dist+1,N)):
+                if(abs(i-sx)+abs(j-sy) < dist):
+                    cnt += li[j][i]
         return cnt
 
     mx = 0
@@ -39,7 +27,7 @@ for tc in range(1, T+1):
         goodFlag = False
         for i in range(N):
             for j in range(N):
-                tmpcnt = bfs(j,i,dist)
+                tmpcnt = man(j,i,dist)
                 if tmpcnt * M >= dist**2 + (dist-1)**2:
                     goodFlag = True
                     mx = max(mx, tmpcnt)
