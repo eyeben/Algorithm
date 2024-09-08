@@ -1,29 +1,30 @@
 import heapq
-from collections import defaultdict
 import sys
 input = sys.stdin.readline
-
 N, M = map(int, input().split())
-dic = defaultdict(list)
-indegree = [0]*(N+1)
+
+indegree = [0]* (N+1)
+adjs = [[] for _ in range(N+1)]
+
+
 for _ in range(M):
     a,b = map(int, input().split())
+    adjs[a].append(b)
     indegree[b] += 1
-    dic[a].append(b)
 
 hq = []
-anss = []
+
 for i in range(1,N+1):
     if indegree[i] == 0:
         heapq.heappush(hq, i)
 
+ans = []
 while hq:
-    tmp = heapq.heappop(hq)
-    anss.append(str(tmp))
+    node = heapq.heappop(hq)
+    ans.append(node)
+    for itm in adjs[node]:
+        indegree[itm] -= 1
+        if indegree[itm] == 0:
+            heapq.heappush(hq, itm)
 
-    if tmp in dic:
-        for itm in dic[tmp]:
-            indegree[itm] -= 1
-            if indegree[itm] == 0:
-                heapq.heappush(hq,itm)
-print(' '.join(anss))
+print(*ans)
