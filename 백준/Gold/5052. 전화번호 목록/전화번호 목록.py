@@ -5,10 +5,9 @@ for tc in range(T):
     li = []
     for _ in range(N):
         li.append(input())
-
-    li.sort(key=lambda x: len(x))
+		# 정렬 2번 수행
     li.sort()
-
+		# 포함 관계인지 체크 후 출력
     ans = "YES"
     for i in range(N-1):
         if li[i] == li[i+1][:len(li[i])]:
