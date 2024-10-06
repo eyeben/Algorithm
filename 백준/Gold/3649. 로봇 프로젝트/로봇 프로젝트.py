@@ -1,22 +1,29 @@
+import sys
+input = sys.stdin.readline
+
 while True:
     try:
-        x = int(input())*10000000
-        n = int(input())
-        arr = [int(input()) for _ in range(n)]
-        arr.sort()
-        answer = []
-        left, right = 0, n-1
-        while left < right:
-            if arr[left]+arr[right] < x:
+        X = int(input())*10**7
+        N = int(input())
+        li = []
+        for _ in range(N):
+            li.append(int(input()))
+
+        li.sort()
+        left = 0
+        right = N - 1
+        goodFlag = False
+        while left<right:
+            piv = li[left] + li[right]
+            if piv < X:
                 left += 1
-            elif arr[left]+arr[right] > x:
+            elif X < piv:
                 right -= 1
             else:
-                answer = [arr[left], arr[right]]
+                print("yes", li[left], li[right])
+                goodFlag = True
                 break
-        if answer:
-            print('yes {0} {1}'.format(answer[0], answer[1]))
-        else:
-            print('danger')
+        if not goodFlag:
+            print("danger")
     except:
         break
