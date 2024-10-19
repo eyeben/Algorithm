@@ -5,7 +5,7 @@ public class Main {
 
 	static int N;
 	static boolean[][] bd;
-	static int ans;
+	static int ans = (int) 1e9;
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,11 +17,7 @@ public class Main {
 			for(int j =0;j<N;j++)
 				bd[i][j] = str.charAt(j) == 'H' ? true:false;
 		}
-		ans =0;
-		for(int i =0 ;i<N;i++)
-			for(int j =0;j<N;j++)
-				ans+= bd[i][j] ? 1 : 0;
-		
+        
 		dfs(0);
 		System.out.println(ans);
 	}
