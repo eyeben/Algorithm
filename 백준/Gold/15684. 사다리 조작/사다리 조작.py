@@ -5,7 +5,7 @@ for i in range(M):
     a,b = map(int,input().split())
     li[a-1][b-1] = True
 
-# end = [False] * N
+
 def draw(n):
     nowAt = n
     for i in range(H):
@@ -14,11 +14,13 @@ def draw(n):
         elif nowAt +1<N and li[i][nowAt]:
             nowAt += 1
     return nowAt == n
-    # end[n] = True
+cnt = 0
 
-
-# for i in range(N):
-#     draw(i)
+for i in range(N):
+    cnt += draw(i)
+if N-cnt > 6:
+    print(-1)
+    exit()
 
 all = []
 for i in range(N-1):
@@ -44,7 +46,3 @@ for itms in combi:
     for x,y in itms:
         li[y][x] = False
 print(-1)
-
-
-def dfs(level, x, y):
-    pass
