@@ -1,6 +1,5 @@
-import math
 N = int(input())
-ans = set()
+ans = []
 for i in range(1,N):
     if N%i == 0:
         a = i
@@ -8,9 +7,8 @@ for i in range(1,N):
         if a >= b:
             break
         if (a+b)%2 == 0:
-            ans.add((a+b)//2)
-ans = list(ans)
-ans.sort()
+            ans.append((a+b)//2)
+ans.reverse()
 if not ans:
     ans.append(-1)
 for itm in ans:
