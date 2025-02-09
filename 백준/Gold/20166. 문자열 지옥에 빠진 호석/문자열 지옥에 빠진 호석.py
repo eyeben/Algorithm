@@ -13,6 +13,8 @@ wordDic = dict()
 isNewWord = dict()
 def dfs(x, y, idx, word):
     global ans
+    if isNewWord[word[:idx]]:
+        wordDic[word[:idx]] += 1
     if idx == len(word):
         ans += 1
         return
@@ -20,8 +22,7 @@ def dfs(x, y, idx, word):
     for i in range(8):
         nx, ny = (x+dx[i]) % M, (y+dy[i]) % N
         if word[idx] == bd[ny][nx]:
-            if isNewWord[word[:idx+1]]:
-                wordDic[word[:idx+1]] += 1
+
             dfs(nx, ny, idx+1, word)
 
 
