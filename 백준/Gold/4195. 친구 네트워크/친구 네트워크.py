@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def findParent(n):
     if parent[n] != n:
         parent[n] = findParent(parent[n])
