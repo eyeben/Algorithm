@@ -30,7 +30,6 @@ for i in range(int(input())):
         if b not in parent:
             parent[b] = b
             cntDict[b] = 1
-        if findParent(a) != findParent(b):
-            union(a, b)
+        union(a, b)
 
         print(cntDict[findParent(a)])
