@@ -5,6 +5,8 @@ dol[N] = 0
 dq = deque([(0, N)])
 while dq:
     dist, n = dq.popleft()
+    if n == M:
+        break
     for i in (-1, 1, -A, A, -B, B):
         if 0 <= n + i <= 100_000 and (dist + 1 < dol[n + i]):
             dol[n + i] = dist + 1
