@@ -1,35 +1,26 @@
-import sys
-
-input = sys.stdin.readline
-
-
-def check(piv):
-    cnt = 1
-    prev = 0
-    cur = 1
-    while cur<N:
-        if li[cur] - li[prev] >= piv:
-            cnt += 1
-            if cnt == C:
-                return True
-            prev = cur
-        cur += 1
-        
-    return False
-
-N, C = map(int,input().split())
+N,C = map(int, input().split())
 li = [int(input()) for _ in range(N)]
-
 li.sort()
-right = li[-1] - li[0]
-left = 0
-ans = -1
-while left <= right:
-    piv = (left + right)//2
-    if check(piv):
-        left = piv + 1
-        ans = piv
-    else:
-        right = piv -1
+left = 1
+right = 1_000_000_000
+ans = 1
 
+def check(dist):
+    cnt = 0
+    nowAt = li[0]
+    for i in range(1, N):
+        if li[i] - nowAt >= dist:
+            cnt += 1
+            nowAt = li[i]
+    return cnt >= C - 1
+
+
+
+while left <= right:
+    mid = (left + right) // 2
+    if check(mid):
+        left = mid + 1
+        ans = mid
+    else:
+        right = mid - 1
 print(ans)
