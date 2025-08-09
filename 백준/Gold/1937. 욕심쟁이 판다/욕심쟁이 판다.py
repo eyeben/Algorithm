@@ -3,58 +3,32 @@ input = sys.stdin.readline
 sys.setrecursionlimit(10**4*25)
 
 N = int(input())
-li = []
+trees = [list(map(int, input().split())) for _ in range(N)]
 
-for _ in range(N):
-    li.append(list(map(int, input().split())))
-ordered = []
-for i in range(N):
-    for j in range(N):
-        ordered.append((li[i][j],j,i))
+cache = [[-1] * N for _ in range(N)]
 
-ordered.sort(reverse=True)
+dy = [-1, 1, 0, 0]
+dx = [0, 0, -1, 1]
 
-dx = [0,1,0,-1]
-dy = [-1,0,1,0]
+def dfs(x,y):
+    # 방문한 노드면 그냥 리턴
+    if cache[y][x] != -1: # 방문한 노드는 최대 값을 보장하는가? yee
+        return cache[y][x]
 
-def dfs(x,y, cnt):
-    global mx, visited
-    badflag = True
-
+    mx = 1
     for i in range(4):
-        nx,ny = x+dx[i], y +dy[i]
-
-        if not(0<=nx<N and 0<=ny<N):
+        nx,ny = x+dx[i], y+dy[i]
+        if not (0 <= nx < N and 0 <= ny < N):
             continue
-        if visited[ny][nx]:
-            continue
-        if li[ny][nx] <= li[y][x]:
-            continue
+        if trees[y][x] < trees[ny][nx]:
+            mx = max(mx, 1+ dfs(nx,ny))
 
-        if cache[ny][nx]:
-            mx = max(mx, cnt+cache[ny][nx])
-            continue
-
-        badflag = False
-        visited[ny][nx] = True
-        dfs(nx,ny,cnt + 1)
-        visited[ny][nx] = False
-
-    if badflag:
-        mx = max(mx,cnt)
-
+    cache[y][x] = mx # 여기가 DP
+    return mx
 
 ans = 0
-visited = [[False]* N for _ in range(N)]
-cache = [[0] * N for _ in range(N)]
-
-for num, x, y in ordered:
-    mx = 0
-    visited[y][x] = True
-    dfs(x,y,1)
-    visited[y][x] = False
-    ans = max(ans, mx)
-    cache[y][x] = mx
-
+for i in range(N):
+    for j in range(N):
+        ans = max(ans, dfs(i,j))
 
 print(ans)
