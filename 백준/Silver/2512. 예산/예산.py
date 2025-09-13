@@ -1,25 +1,22 @@
 N = int(input())
 li = list(map(int, input().split()))
-li.sort(reverse=True)
 M = int(input())
+left, right = 0, max(li)
+ans = 0
 
-def check(mid):
+
+def check(n):
     total = 0
     for itm in li:
-        total += min(itm, mid)
-        if total>M:
-            return False
-    return True
+        total += min(itm, n)
+    return total <= M
 
-ans = 0
-left = 0
-right = max(li)
-while left<= right:
-    mid = (left+right)//2
+
+while left <= right:
+    mid = (left+right) // 2
     if check(mid):
+        left = mid + 1
         ans = mid
-        left = mid+1
     else:
-        right = mid-1
-
+        right = mid - 1
 print(ans)
