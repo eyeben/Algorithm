@@ -1,0 +1,5 @@
+from itertools import combinations
+N, M = map(int, input().split())
+li = [i for i in range(1, N + 1)]
+for itms in list(combinations(li, M)):
+    print(*itms)
