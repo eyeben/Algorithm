@@ -7,8 +7,8 @@ for _ in range(int(input())):
         dd[itm] += num
         num *= 10
 
-li = sorted(list(dd.items()), key=lambda x:x[1], reverse=True)
+li = sorted(list(dd.values()), reverse=True)
 ans = 0
 for i in range(min(10, len(li))):
-    ans += (9-i) * li[i][1]
+    ans += (9-i) * li[i]
 print(ans)
