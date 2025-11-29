@@ -1,42 +1,34 @@
-from collections import defaultdict, deque
-
+from collections import deque
 N, M = map(int, input().split())
 li = [list(map(int, input().split())) for _ in range(N)]
-dic = defaultdict(list)
-for y in range(N):
-    for x in range(M):
-        if li[y][x]:
-            dic[li[y][x]].append((x, y))
-heights = list(dict(dic).keys())
-heights.sort(reverse=True)
+visited = [[False] * M for _ in range(N)]
 
-cnt = 0
-
-dx = [0, 1, 0, -1, 1, 1, -1, -1]
-dy = [1, 0, -1, 0, 1, -1, 1, -1]
+dx = [1,0,-1,0,1,1,-1,-1]
+dy = [0,1,0,-1,1,-1,1,-1]
 
 
-def mark(sx, sy, sh):
-    visited = set()
-    dq = deque()
-    visited.add((sx,sy))
-    dq.append((sx, sy, sh))
+def bfs(x, y):
+    is_Top = True
+    level = li[y][x]
+    dq = deque([(x, y)])
+    visited[y][x] = True
     while dq:
-        x, y, h = dq.popleft()
+        x, y = dq.popleft()
         for i in range(8):
             nx, ny = x + dx[i], y + dy[i]
-            if 0<=nx<M and 0<=ny<N and (nx,ny) not in visited and li[ny][nx] and li[ny][nx] <= h:
-                visited.add((nx,ny))
-                dq.append((nx,ny,li[ny][nx]))
+            if 0 <= nx < M and 0 <= ny < N:
+                if li[ny][nx] == level and not visited[ny][nx]:
+                    visited[ny][nx] = True
+                    dq.append((nx, ny))
+                elif li[ny][nx] > level:
+                    is_Top = False
+    return is_Top
 
-    for x,y in visited:
-        li[y][x] = 0
 
+ans = 0
+for x in range(M):
+    for y in range(N):
+        if not visited[y][x]:
+            ans += bfs(x, y)
 
-
-for height in heights:
-    for x, y in dic[height]:
-        if li[y][x]:
-            cnt += 1
-            mark(x, y, height)
-print(cnt)
+print(ans)
